@@ -625,14 +625,14 @@ jobs:
         run: |
           export IMAGE_TAG=${{ steps.check_image.outputs.base_image_hash }}
           docker buildx bake --set *.platform=linux/amd64 -f docker/docker-bake.hcl base --push
-          docker buildx bake --set *.platform=linux/arm64 -f docker/docker-bake.hcl base --push
+          docker buildx bake --set *.platform=linux/aarm64/v8 -f docker/docker-bake.hcl base --push
 
       - name: Build Docker mitie base image and push 🛠 ⬆
         if: steps.check_image.outputs.base_mitie_exists == 'false'
         run: |
           export IMAGE_TAG=${{ steps.check_image.outputs.base_mitie_image_hash }}
           docker buildx bake --set *.platform=linux/amd64 -f docker/docker-bake.hcl base-mitie --push
-          docker buildx bake --set *.platform=linux/arm64 -f docker/docker-bake.hcl base-mitie --push
+          docker buildx bake --set *.platform=linux/aarm64/v8 -f docker/docker-bake.hcl base-mitie --push
 
       - name: Build Docker poetry base image and push 🛠 ⬆
         if: steps.check_image.outputs.base_poetry_exists == 'false'
@@ -640,14 +640,14 @@ jobs:
           export IMAGE_TAG=${{ env.POETRY_VERSION }}
           export BASE_IMAGE_HASH=${{ steps.check_image.outputs.base_image_hash }}
           docker buildx bake --set *.platform=linux/amd64 -f docker/docker-bake.hcl base-poetry --push
-          docker buildx bake --set *.platform=linux/arm64 -f docker/docker-bake.hcl base-poetry --push
+          docker buildx bake --set *.platform=linux/aarm64/v8 -f docker/docker-bake.hcl base-poetry --push
 
       - name: Build Docker builder base image and push 🛠 ⬆
         if: steps.check_image.outputs.base_builder_exists == 'false'
         run: |
           export IMAGE_TAG=${{ steps.check_image.outputs.base_builder_image_hash }}
           docker buildx bake --set *.platform=linux/amd64 -f docker/docker-bake.hcl base-builder --push
-          docker buildx bake --set *.platform=linux/arm64 -f docker/docker-bake.hcl base-builder --push
+          docker buildx bake --set *.platform=linux/aarm64/v8 -f docker/docker-bake.hcl base-builder --push
 
       # Set environment variables for a pull request
       #
@@ -704,7 +704,7 @@ jobs:
     strategy:
       matrix:
         image: [default, full, mitie-en, spacy-de, spacy-en]
-        arch: [linux/amd64, linux/arm64]
+        arch: [linux/amd64, linux/aarm64/v8]
 
     steps:
       # Due to an issue with checking out a wrong commit, we make sure
