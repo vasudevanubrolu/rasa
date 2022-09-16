@@ -4,6 +4,7 @@ import logging
 from asyncio import AbstractEventLoop
 from typing import Any, Text, List, Optional, Union, Dict, TYPE_CHECKING
 import time
+from rasa.constants import ENV_RASA_EVENT_BROKER_TOPIC
 
 from rasa.core.brokers.broker import EventBroker
 from rasa.shared.utils.io import DEFAULT_ENCODING
@@ -27,7 +28,7 @@ class KafkaEventBroker(EventBroker):
     def __init__(
         self,
         url: Union[Text, List[Text], None],
-        topic: Text = "rasa_core_events",
+        topic: Optional[Text] = None,
         client_id: Optional[Text] = None,
         partition_by_sender: bool = False,
         sasl_username: Optional[Text] = None,
@@ -76,7 +77,9 @@ class KafkaEventBroker(EventBroker):
 
         self.producer: Optional[kafka.KafkaConsumer] = None
         self.url = url
-        self.topic = topic
+        self.topic = topic or os.environ.get(
+            ENV_RASA_EVENT_BROKER_TOPIC, "rasa_core_events"
+        )
         self.client_id = client_id
         self.partition_by_sender = partition_by_sender
         self.security_protocol = security_protocol.upper()
