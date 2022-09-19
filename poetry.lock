@@ -2969,6 +2969,36 @@ typing-extensions = ">=3.6.6"
 wrapt = ">=1.11.0"
 
 [[package]]
+name = "tensorflow-aarch64"
+version = "2.8.2"
+description = "TensorFlow is an open source machine learning framework for everyone."
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+absl-py = ">=0.4.0"
+astunparse = ">=1.6.0"
+flatbuffers = ">=1.12"
+gast = ">=0.2.1"
+google-pasta = ">=0.1.1"
+grpcio = ">=1.24.3,<2.0"
+h5py = ">=2.9.0"
+keras = ">=2.8.0rc0,<2.9"
+keras-preprocessing = ">=1.1.1"
+libclang = ">=9.0.1"
+numpy = ">=1.20"
+opt-einsum = ">=2.3.2"
+protobuf = ">=3.9.2,<3.20"
+six = ">=1.12.0"
+tensorboard = ">=2.8,<2.9"
+tensorflow-estimator = ">=2.8,<2.9"
+tensorflow-io-gcs-filesystem = ">=0.23.1"
+termcolor = ">=1.1.0"
+typing-extensions = ">=3.6.6"
+wrapt = ">=1.11.0"
+
+[[package]]
 name = "tensorflow-addons"
 version = "0.17.1"
 description = "TensorFlow Addons."
@@ -3605,7 +3635,7 @@ transformers = ["transformers", "sentencepiece"]
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.7,<3.10"
-content-hash = "2b73645d06e0fd088eff49905c4dec2cdb6f7228667a8809185f7e3368927dcc"
+content-hash = "03ac8b179b0744a8499bf4bffac46ddef4dff2f6f095c8a2ec52357d35f75f91"
 
 [metadata.files]
 absl-py = []
@@ -3834,6 +3864,7 @@ tensorboard = []
 tensorboard-data-server = []
 tensorboard-plugin-wit = []
 tensorflow = []
+tensorflow-aarch64 = []
 tensorflow-addons = []
 tensorflow-estimator = []
 tensorflow-hub = []
