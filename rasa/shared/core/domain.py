@@ -79,6 +79,7 @@ KEY_SLOTS = "slots"
 KEY_INTENTS = "intents"
 KEY_ENTITIES = "entities"
 KEY_RESPONSES = "responses"
+KEY_SKILLS = "skills"
 KEY_ACTIONS = "actions"
 KEY_FORMS = "forms"
 KEY_E2E_ACTIONS = "e2e_actions"
@@ -87,6 +88,7 @@ KEY_RESPONSES_TEXT = "text"
 ALL_DOMAIN_KEYS = [
     KEY_SLOTS,
     KEY_FORMS,
+    KEY_SKILLS,
     KEY_ACTIONS,
     KEY_ENTITIES,
     KEY_INTENTS,
@@ -235,6 +237,8 @@ class Domain:
 
         responses = data.get(KEY_RESPONSES, {})
 
+        skills = data.get(KEY_SKILLS, {})
+
         domain_slots = data.get(KEY_SLOTS, {})
         if domain_slots:
             rasa.shared.core.slot_mappings.validate_slot_mappings(domain_slots)
@@ -258,6 +262,7 @@ class Domain:
             action_texts=data.get(KEY_E2E_ACTIONS, []),
             session_config=session_config,
             **additional_arguments,
+            skills=skills,
         )
 
     @staticmethod
@@ -354,6 +359,7 @@ class Domain:
 
         merge_func_mappings: Dict[Text, Callable[..., Any]] = {
             KEY_INTENTS: rasa.shared.utils.common.merge_lists_of_dicts,
+            KEY_SKILLS: rasa.shared.utils.common.merge_dicts,
             KEY_ENTITIES: rasa.shared.utils.common.merge_lists_of_dicts,
             KEY_ACTIONS: rasa.shared.utils.common.merge_lists,
             KEY_E2E_ACTIONS: rasa.shared.utils.common.merge_lists,
@@ -723,6 +729,7 @@ class Domain:
         action_texts: Optional[List[Text]] = None,
         store_entities_as_slots: bool = True,
         session_config: SessionConfig = SessionConfig.default(),
+        skills: Optional[Dict[Text, Dict[Text, Any]]] = None,
     ) -> None:
         """Creates a `Domain`.
 
@@ -740,6 +747,7 @@ class Domain:
                 events for entities if there are slots with the same name as the entity.
             session_config: Configuration for conversation sessions. Conversations are
                 restarted at the end of a session.
+            skills: A dictionary of skills, their name and description.
         """
         self.entity_properties = self.collect_entity_properties(entities)
         self.intent_properties = self.collect_intent_properties(
@@ -755,6 +763,8 @@ class Domain:
         action_names += overridden_form_actions
 
         self.responses = responses
+
+        self.skills = skills or {}
 
         self.action_texts = action_texts if action_texts is not None else []
 

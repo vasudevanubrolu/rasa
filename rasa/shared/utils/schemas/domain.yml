@@ -7,14 +7,24 @@ mapping:
   intents:
     type: "seq"
     sequence:
-    - type: "map"
-      mapping:
-        use_entities:
-          type: "any"
-        ignore_entities:
-          type: "any"
-      allowempty: True
-    - type: "str"
+      - type: "map"
+        mapping:
+          use_entities:
+            type: "any"
+          ignore_entities:
+            type: "any"
+        allowempty: True
+      - type: "str"
+  skills:
+    type: "map"
+    mapping:
+      regex;([A-Za-z]+):
+        type: "map"
+        mapping:
+          description:
+            type: "str"
+            required: True
+    allowempty: True
   entities:
     type: "seq"
     matching: "any"
@@ -28,14 +38,14 @@ mapping:
           groups:
             type: "seq"
             sequence:
-            - type: "str"
+              - type: "str"
         allowempty: True
       - type: "str"
   actions:
     type: "seq"
     sequence:
-    - type: "str"
-      required: True
+      - type: "str"
+        required: True
   responses:
     # see utils/schemas/responses.yml
     include: responses
@@ -69,10 +79,10 @@ mapping:
             type: "any"
             required: False
           mappings:
-           type: "seq"
-           required: True
-           allowempty: False
-           sequence:
+            type: "seq"
+            required: True
+            allowempty: False
+            sequence:
               - type: "map"
                 allowempty: True
                 mapping:

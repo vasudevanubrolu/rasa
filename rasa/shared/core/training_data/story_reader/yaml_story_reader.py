@@ -50,6 +50,7 @@ logger = logging.getLogger(__name__)
 KEY_STORIES = "stories"
 KEY_STORY_NAME = "story"
 KEY_RULES = "rules"
+KEY_RULES = "description"
 KEY_RULE_NAME = "rule"
 KEY_STEPS = "steps"
 KEY_ENTITIES = "entities"
