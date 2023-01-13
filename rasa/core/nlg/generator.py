@@ -63,6 +63,10 @@ def _create_from_endpoint_config(
         from rasa.core.nlg import TemplatedNaturalLanguageGenerator
 
         nlg = TemplatedNaturalLanguageGenerator(domain.responses)
+    elif endpoint_config.type.lower() == "llm":
+        from rasa.core.nlg.llm import LLMNaturalLanguageGenerator
+
+        nlg = LLMNaturalLanguageGenerator(domain.responses)
     else:
         nlg = _load_from_module_name_in_endpoint_config(endpoint_config, domain)
 
