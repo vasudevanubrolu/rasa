@@ -22,7 +22,7 @@ _RESPONSE_VARIATION_PROMPT_TEMPLATE = """The following is a conversation with an
 Summary of the conversation:
 {history}
 
-{speaker}: {input}
+{current_input}
 AI Response: {thought}
 Rephrased Response:"""
 
@@ -163,11 +163,16 @@ class LLMNaturalLanguageGenerator(TemplatedNaturalLanguageGenerator):
             return response
         summary = self.summarize(tracker, llm)
         prompt = PromptTemplate(
-            input_variables=["history", "input", "thought", "speaker"],
+            input_variables=["history", "current_input", "thought"],
             template=_RESPONSE_VARIATION_PROMPT_TEMPLATE,
         )
 
         speaker, latest_message = self.latest_message_from_tracker(tracker)
+        if speaker == "Human":
+            current_input = f"Human: {latest_message}"
+        else:
+            # if last message is from AI, we skip adding it
+            current_input = ""
         manager = CallbackManager(handlers=[LoggerCallbackHandler()])
         chat_predictor = LLMChain(
             llm=llm, prompt=prompt, verbose=True, callback_manager=manager
@@ -175,8 +180,7 @@ class LLMNaturalLanguageGenerator(TemplatedNaturalLanguageGenerator):
         updated_text = chat_predictor.predict(
             history=summary,
             thought=response["text"],
-            input=latest_message,
-            speaker=speaker,
+            current_input=current_input,
         )
         response["text"] = updated_text
         return response
