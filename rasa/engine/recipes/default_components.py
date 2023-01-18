@@ -1,6 +1,7 @@
 from rasa.nlu.classifiers.diet_classifier import DIETClassifier
 from rasa.nlu.classifiers.fallback_classifier import FallbackClassifier
 from rasa.nlu.classifiers.keyword_intent_classifier import KeywordIntentClassifier
+from rasa.nlu.classifiers.llm_intent_classifier import LLMIntentClassifier
 from rasa.nlu.classifiers.logistic_regression_classifier import (
     LogisticRegressionClassifier,
 )
@@ -43,6 +44,7 @@ DEFAULT_COMPONENTS = [
     FallbackClassifier,
     KeywordIntentClassifier,
     MitieIntentClassifier,
+    LLMIntentClassifier,
     SklearnIntentClassifier,
     LogisticRegressionClassifier,
     # Response Selectors
